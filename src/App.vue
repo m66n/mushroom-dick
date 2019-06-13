@@ -1,28 +1,70 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div v-if="showAlert" class="columns is-centered pad-top">
+      <div class="column is-half-desktop">
+        <div class="notification is-danger">
+          <button class="delete" @click="showAlert=false"></button>
+          A strong random number generator is not available.
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <div class="columns is-centered">
+        <div class="column is-two-thirds-tablet is-half-desktop">
+          <div class="field">
+           <div class="box has-text-centered" id="password">{{ password }}</div>
+          </div>
+          <div class="field">
+            <div class="buttons is-centered">
+              <a class="button is-primary" @click="password=generatePassword(length)">
+                Regenerate
+              </a>
+              <a class="button" @click="copyTextToClipboard(password)">
+                Copy to clipboard
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { copyTextToClipboard, generatePassword } from '@/util'
+
+const DEFAULT_LENGTH = 12
 
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      showAlert: !!Window.crypto,
+      length: DEFAULT_LENGTH,
+      password: this.generatePassword(DEFAULT_LENGTH)
+    }
+  },
+  methods: {
+    copyTextToClipboard,
+    generatePassword
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#password {
+  font-family: "Source Code Pro", monospace;
+  overflow-wrap: break-word;
+}
+
+.pad-top {
+  padding-top: 1rem;
+}
+
+.space-between {
+  justify-content: space-between;
 }
 </style>
