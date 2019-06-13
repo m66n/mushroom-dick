@@ -16,7 +16,7 @@
           </div>
           <div class="field">
             <div class="buttons is-centered">
-              <a class="button is-primary" @click="password=generatePassword(length)">
+              <a class="button is-primary" @click="password=generatePassword(length, flags)">
                 Regenerate
               </a>
               <a class="button" @click="copyTextToClipboard(password)">
@@ -31,16 +31,18 @@
 </template>
 
 <script>
-import { copyTextToClipboard, generatePassword } from '@/util'
+import { flags, copyTextToClipboard, generatePassword } from '@/util'
 
 const DEFAULT_LENGTH = 12
+const DEFAULT_FLAGS = flags
 
 export default {
   data () {
     return {
       showAlert: !!Window.crypto,
       length: DEFAULT_LENGTH,
-      password: this.generatePassword(DEFAULT_LENGTH)
+      password: this.generatePassword(DEFAULT_LENGTH, DEFAULT_FLAGS),
+      flags: DEFAULT_FLAGS
     }
   },
   methods: {
