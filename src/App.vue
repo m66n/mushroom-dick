@@ -17,8 +17,8 @@
            <div class="box has-text-centered" id="password">{{ password }}</div>
           </div>
           <div class="field">
-            <div class="buttons is-centered">
-              <a class="button is-primary" @click="generatePassword()">
+            <div class="buttons">
+              <a class="button is-primary" @click="regeneratePassword()">
                 Regenerate
               </a>
               <a class="button" @click="copyTextToClipboard(password)">
@@ -26,34 +26,40 @@
               </a>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="columns is-centered">
-        <div class="column is-narrow">
-          <div class="field is-grouped">
+          <div class="field">
+            <label class="label">Length</label>
+            <div class="control">
+              <input class="input" type="number" id="length" min="4" max="64" v-model="length" ref="length" @click="$refs.length.focus()" @blur="validateLength()">
+            </div>
+          </div>
+          <div class="field">
             <div class="control">
               <label class="checkbox">
-                <input type="checkbox" v-model="flags.uppers" @change="generatePassword()">
+                <input type="checkbox" v-model="flags.uppers" @change="regeneratePassword()">
                 A-Z
               </label>
             </div>
+          </div>
+          <div class="field">
             <div class="control">
               <label class="checkbox">
-                <input type="checkbox" v-model="flags.digits" @change="generatePassword()">
+                <input type="checkbox" v-model="flags.digits" @change="regeneratePassword()">
                 0-9
               </label>
             </div>
+          </div>
+          <div class="field">
             <div class="control">
               <label class="checkbox">
-                <input type="checkbox" v-model="flags.symbols" @change="generatePassword()">
+                <input type="checkbox" v-model="flags.symbols" @change="regeneratePassword()">
                 !@#$%^&amp;*
               </label>
             </div>
+          </div>
+          <div class="field">
             <div class="control">
               <label class="checkbox">
-                <input type="checkbox" v-model="flags.ambiguous" @change="generatePassword()">
+                <input type="checkbox" v-model="flags.ambiguous" @change="regeneratePassword()">
                 Avoid ambiguous
               </label>
             </div>
@@ -68,6 +74,8 @@
 import { flags, copyTextToClipboard, generatePassword } from '@/util'
 
 const DEFAULT_LENGTH = 12
+const MIN_LENGTH = 4
+const MAX_LENGTH = 64
 const DEFAULT_FLAGS = flags
 
 export default {
@@ -81,8 +89,20 @@ export default {
   },
   methods: {
     copyTextToClipboard,
-    generatePassword () {
+    regeneratePassword () {
       this.password = generatePassword(this.length, this.flags)
+    },
+    validateLength () {
+      let length = parseInt(this.length, 10)
+      if (isNaN(length)) {
+        length = DEFAULT_LENGTH
+      } else if (length < MIN_LENGTH) {
+        length = MIN_LENGTH
+      } else if (length > MAX_LENGTH) {
+        length = MAX_LENGTH
+      }
+      this.length = length
+      this.regeneratePassword()
     }
   }
 }
@@ -100,5 +120,9 @@ export default {
 
 .space-between {
   justify-content: space-between;
+}
+
+#length {
+  width: 8rem;
 }
 </style>
