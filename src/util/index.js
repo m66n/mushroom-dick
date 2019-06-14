@@ -12,6 +12,7 @@ const LOWERS = 'abcdefghijklmnopqrstuvwxyz'
 const UPPERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const DIGITS = '0123456789'
 const SYMBOLS = '!@#$%^&*'
+const AMBIGUOUS = 'B8G6I1l!0OQDS5Z2'
 
 function containsAny (haystack, needles) {
   for (let i = 0; i < haystack.length; ++i) {
@@ -41,14 +42,18 @@ export function generatePassword (length, flags) {
   if (flags.symbols) {
     pool += SYMBOLS
   }
+  if (flags.ambiguous) {
+    for (let i = 0; i < AMBIGUOUS.length; ++i) {
+      pool = pool.replace(AMBIGUOUS[i], '')
+    }
+  }
   while (pw.length < length) {
     const index = randomBelow(pool.length)
-    pw += pool.charAt(index)
+    pw += pool[index]
   }
   if ((flags.uppers && !containsAny(UPPERS, pw)) ||
       (flags.digits && !containsAny(DIGITS, pw)) ||
       (flags.symbols && !containsAny(SYMBOLS, pw))) {
-    console.log('flags not met')
     return generatePassword(length, flags)
   }
   return pw

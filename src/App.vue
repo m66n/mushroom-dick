@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <div v-if="showAlert" class="columns is-centered pad-top">
-      <div class="column is-half-desktop">
-        <div class="notification is-danger">
-          <button class="delete" @click="showAlert=false"></button>
-          A strong random number generator is not available.
+    <section v-if="showAlert" class="section">
+      <div class="columns is-centered">
+        <div class="column is-half-desktop">
+          <div class="notification is-danger">
+            <button class="delete" @click="showAlert=false"></button>
+            A strong random number generator is not available.
+          </div>
         </div>
       </div>
-    </div>
+    </section>
     <section class="section">
       <div class="columns is-centered">
         <div class="column is-two-thirds-tablet is-half-desktop">
@@ -16,12 +18,44 @@
           </div>
           <div class="field">
             <div class="buttons is-centered">
-              <a class="button is-primary" @click="password=generatePassword(length, flags)">
+              <a class="button is-primary" @click="generatePassword()">
                 Regenerate
               </a>
               <a class="button" @click="copyTextToClipboard(password)">
                 Copy to clipboard
               </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="columns is-centered">
+        <div class="column is-narrow">
+          <div class="field is-grouped">
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox" v-model="flags.uppers" @change="generatePassword()">
+                A-Z
+              </label>
+            </div>
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox" v-model="flags.digits" @change="generatePassword()">
+                0-9
+              </label>
+            </div>
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox" v-model="flags.symbols" @change="generatePassword()">
+                !@#$%^&amp;*
+              </label>
+            </div>
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox" v-model="flags.ambiguous" @change="generatePassword()">
+                Avoid ambiguous
+              </label>
             </div>
           </div>
         </div>
@@ -41,13 +75,15 @@ export default {
     return {
       showAlert: !!Window.crypto,
       length: DEFAULT_LENGTH,
-      password: this.generatePassword(DEFAULT_LENGTH, DEFAULT_FLAGS),
+      password: generatePassword(DEFAULT_LENGTH, DEFAULT_FLAGS),
       flags: DEFAULT_FLAGS
     }
   },
   methods: {
     copyTextToClipboard,
-    generatePassword
+    generatePassword () {
+      this.password = generatePassword(this.length, this.flags)
+    }
   }
 }
 </script>
@@ -60,10 +96,6 @@ export default {
 #password {
   font-family: "Source Code Pro", monospace;
   overflow-wrap: break-word;
-}
-
-.pad-top {
-  padding-top: 1rem;
 }
 
 .space-between {
