@@ -29,7 +29,7 @@
           <div class="field">
             <label class="label">Length</label>
             <div class="control">
-              <input class="input" type="number" id="length" min="4" max="64" v-model="length" ref="length" @click="$refs.length.focus()" @blur="validateLength()">
+              <input class="input" type="number" id="length" :min="MIN_LENGTH" :max="MAX_LENGTH" v-model="length" ref="length" @click="$refs.length.focus()" @blur="validateLength()">
             </div>
           </div>
           <div class="field">
@@ -75,7 +75,7 @@ import { flags, copyTextToClipboard, generatePassword } from '@/util'
 
 const DEFAULT_LENGTH = 12
 const MIN_LENGTH = 4
-const MAX_LENGTH = 64
+const MAX_LENGTH = 256
 const DEFAULT_FLAGS = flags
 
 export default {
