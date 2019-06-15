@@ -86,7 +86,7 @@ import { flags, copyTextToClipboard, generatePassword, generatePhonemes } from '
 const DEFAULT_LENGTH = 12
 const MIN_LENGTH = 6
 const MAX_LENGTH = 256
-const DEFAULT_FUNC = generatePhonemes
+const DEFAULT_FUNC = generatePassword
 const DEFAULT_FLAGS = flags
 
 export default {
