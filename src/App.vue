@@ -26,10 +26,20 @@
               </a>
             </div>
           </div>
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="func" :checked="isPhoneme" @click="toggleFunc(true)">
+              Phonemic
+            </label>
+            <label class="radio">
+              <input type="radio" name="func" :checked="!isPhoneme" @click="toggleFunc(false)">
+              Random
+            </label>
+          </div>
           <div class="field">
             <label class="label">Length</label>
             <div class="control">
-              <input class="input" type="number" id="length" :min="MIN_LENGTH" :max="MAX_LENGTH" v-model="length" ref="length" @click="$refs.length.focus()" @blur="validateLength()">
+              <input class="input" type="number" id="length" v-model="length" ref="length" @click="$refs.length.focus()" @blur="validateLength()">
             </div>
           </div>
           <div class="field">
@@ -71,11 +81,12 @@
 </template>
 
 <script>
-import { flags, copyTextToClipboard, generatePassword } from '@/util'
+import { flags, copyTextToClipboard, generatePassword, generatePhonemes } from '@/util'
 
 const DEFAULT_LENGTH = 12
-const MIN_LENGTH = 4
+const MIN_LENGTH = 6
 const MAX_LENGTH = 256
+const DEFAULT_FUNC = generatePhonemes
 const DEFAULT_FLAGS = flags
 
 export default {
@@ -83,14 +94,24 @@ export default {
     return {
       showAlert: !!Window.crypto,
       length: DEFAULT_LENGTH,
-      password: generatePassword(DEFAULT_LENGTH, DEFAULT_FLAGS),
+      func: DEFAULT_FUNC,
+      password: DEFAULT_FUNC(DEFAULT_LENGTH, DEFAULT_FLAGS),
       flags: DEFAULT_FLAGS
+    }
+  },
+  computed: {
+    isPhoneme () {
+      return this.func === generatePhonemes
     }
   },
   methods: {
     copyTextToClipboard,
     regeneratePassword () {
-      this.password = generatePassword(this.length, this.flags)
+      this.password = this.func(this.length, this.flags)
+    },
+    toggleFunc (phonemic) {
+      this.func = phonemic ? generatePhonemes : generatePassword
+      this.regeneratePassword()
     },
     validateLength () {
       let length = parseInt(this.length, 10)
