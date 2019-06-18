@@ -81,10 +81,10 @@
       <div class="container">
         <div class="content has-text-centered">
           <p>
-            Created with <a href="https://vuejs.org/">Vue.js</a> and <a href="https://bulma.io/">Bulma</a>.
+            Created with <a href="https://vuejs.org/">Vue.js</a> and <a href="https://bulma.io/">Bulma</a>. Source code available at <a href="https://github.com/m66n/mushroom-dick">GitHub</a>.
           </p>
           <p>
-            Source code available at <a href="https://github.com/m66n/mushroom-dick">GitHub</a>.
+            © 2019 Michael Chapman
           </p>
         </div>
       </div>
@@ -104,7 +104,7 @@ const DEFAULT_FLAGS = flags
 export default {
   data () {
     return {
-      showAlert: !!window.crypto,
+      showAlert: !!Window.crypto,
       length: DEFAULT_LENGTH,
       func: DEFAULT_FUNC,
       password: DEFAULT_FUNC(DEFAULT_LENGTH, DEFAULT_FLAGS),
