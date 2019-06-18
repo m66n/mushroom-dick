@@ -77,6 +77,18 @@
         </div>
       </div>
     </section>
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            Created with <a href="https://vuejs.org/">Vue.js</a> and <a href="https://bulma.io/">Bulma</a>.
+          </p>
+          <p>
+            Source code available at <a href="https://github.com/m66n/mushroom-dick">GitHub</a>.
+          </p>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -145,5 +157,13 @@ export default {
 
 #length {
   width: 8rem;
+}
+
+footer {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 30;
 }
 </style>
