@@ -104,7 +104,7 @@ const DEFAULT_FLAGS = flags
 export default {
   data () {
     return {
-      showAlert: !!Window.crypto,
+      showAlert: !!window.crypto,
       length: DEFAULT_LENGTH,
       func: DEFAULT_FUNC,
       password: DEFAULT_FUNC(DEFAULT_LENGTH, DEFAULT_FLAGS),
