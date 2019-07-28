@@ -158,12 +158,4 @@ export default {
 #length {
   width: 8rem;
 }
-
-footer {
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  z-index: 30;
-}
 </style>
